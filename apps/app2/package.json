@@ -15,6 +15,7 @@
 		"@types/react-dom": "^19.0.3",
 		"@tanstack/router-plugin": "^1.112.8",
 		"@vitejs/plugin-react": "^4.3.2",
+		"@repo/typescript-config": "workspace:*",
 		"vite": "^6.0.3"
 	},
 	"dependencies": {
