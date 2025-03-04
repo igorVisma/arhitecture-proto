@@ -20,6 +20,9 @@ importers:
 
   apps/app1:
     dependencies:
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@tanstack/react-router':
         specifier: ^1.112.8
         version: 1.112.8(react-dom@19.0.0)(react@19.0.0)
@@ -60,6 +63,9 @@ importers:
 
   apps/app2:
     dependencies:
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@tanstack/react-router':
         specifier: ^1.112.8
         version: 1.112.8(react-dom@19.0.0)(react@19.0.0)
@@ -100,6 +106,9 @@ importers:
 
   apps/root:
     dependencies:
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@tanstack/react-router':
         specifier: ^1.112.11
         version: 1.112.11(react-dom@19.0.0)(react@19.0.0)
@@ -147,6 +156,10 @@ importers:
   packages/typescript-config: {}
 
   packages/ui:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -154,6 +167,9 @@ importers:
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      '@types/react':
+        specifier: ^19.0.8
+        version: 19.0.10
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
