@@ -8,7 +8,7 @@ export const Route = createFileRoute("/about")({
 function AboutComponent() {
 	return (
 		<div className="p-2">
-			<h3>INTERNAL ROUTE OF APP 2</h3>
+			<h3>INTERNAL ROUTE OF BASE APP</h3>
 		</div>
 	);
 }
