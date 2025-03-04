@@ -1,10 +1,10 @@
 {
-  "name": "docs",
+  "name": "app-2",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --clearScreen false",
+    "dev": "vite --clearScreen false --port 8888",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.ts\""
