@@ -25,6 +25,9 @@ function RootComponent() {
 					}}>
 					About
 				</Link>
+				<a className="text-lg" href={`${window.location.origin}/app1`}>
+					To App 1
+				</a>
 			</div>
 			<hr />
 			<Outlet />

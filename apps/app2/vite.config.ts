@@ -12,6 +12,7 @@ const processEnvValues = {
 // https://vitejs.dev/config/
 export default defineConfig({
 	define: processEnvValues,
+	base: process.env.APP_2_BASE_PATH,
 	plugins: [
 		TanStackRouterVite({
 			target: "react",
@@ -19,4 +20,7 @@ export default defineConfig({
 		}),
 		react(),
 	],
+	server: {
+		allowedHosts: true,
+	},
 });

@@ -1,0 +1,9 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "7001:80" # Expose port 80 for HTTP
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf # Mount the Nginx config
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Add host.docker.internal to the container's /etc/hosts file

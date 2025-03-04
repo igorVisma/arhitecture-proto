@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"dev": "vite --port=7777",
+		"dev": "vite --port=7777 --host",
 		"build": "vite build",
 		"serve": "vite preview",
 		"start": "vite"
