@@ -8,10 +8,7 @@ export const Route = createRootRoute({
 function RootComponent() {
 	return (
 		<>
-			<div className="p-2 flex gap-2 text-lg">
-				<a className="text-lg" href={`${window.location.origin}/`}>
-					To ROOT
-				</a>
+			<div className="p-2 flex gap-3 text-lg">
 				<Link
 					to="/"
 					activeProps={{
@@ -29,6 +26,9 @@ function RootComponent() {
 				</Link>
 				<a className="text-lg" href={`${window.location.origin}/app2`}>
 					To App 2
+				</a>
+				<a className="text-lg m-auto self-end" href={`${window.location.origin}/`}>
+					To ROOT
 				</a>
 			</div>
 			<hr />
