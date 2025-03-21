@@ -5,13 +5,9 @@ import { config } from "dotenv";
 
 config({ path: "../../.env" });
 
-const processEnvValues = {
-	"import.meta.env.APP_2_BASE_PATH": JSON.stringify(process.env.APP_2_BASE_PATH),
-};
-
 // https://vitejs.dev/config/
 export default defineConfig({
-	define: processEnvValues,
+	base: "/app3",
 	plugins: [
 		TanStackRouterVite({
 			target: "react",
