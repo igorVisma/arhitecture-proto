@@ -8,6 +8,9 @@ config({ path: "../../.env" });
 // https://vitejs.dev/config/
 export default defineConfig({
 	base: "/app1",
+	build: {
+		sourcemap: true,
+	},
 	plugins: [
 		TanStackRouterVite({
 			target: "react",

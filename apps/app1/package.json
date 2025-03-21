@@ -7,7 +7,7 @@
 		"typecheck": "tsc --noEmit",
 		"dev": "vite --port=7777 --host",
 		"build": "vite build",
-		"serve": "vite preview",
+		"serve": "vite preview --port=7777 --host",
 		"start": "vite"
 	},
 	"devDependencies": {

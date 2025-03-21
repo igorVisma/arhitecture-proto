@@ -14,6 +14,9 @@ function RootComponent() {
 	// current route
 	console.log("current route", window.location.pathname);
 
+	// node env
+	console.info("node env", process.env.NODE_ENV);
+
 	return (
 		<>
 			<div className="p-2 flex gap-3 text-lg">
@@ -43,7 +46,7 @@ function RootComponent() {
 			</div>
 			<hr />
 			<Outlet />
-			<TanStackRouterDevtools position="bottom-right" />
+			{/* <TanStackRouterDevtools position="bottom-right" /> */}
 		</>
 	);
 }
