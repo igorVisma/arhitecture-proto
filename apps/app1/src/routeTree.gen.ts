@@ -11,20 +11,20 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
-import { Route as IndexImport } from './routes/index'
+import { Route as LangApp1IndexImport } from './routes/$lang/app1/index'
+import { Route as LangApp1AboutImport } from './routes/$lang/app1/about'
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+const LangApp1IndexRoute = LangApp1IndexImport.update({
+  id: '/$lang/app1/',
+  path: '/$lang/app1/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
+const LangApp1AboutRoute = LangApp1AboutImport.update({
+  id: '/$lang/app1/about',
+  path: '/$lang/app1/about',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -32,18 +32,18 @@ const IndexRoute = IndexImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+    '/$lang/app1/about': {
+      id: '/$lang/app1/about'
+      path: '/$lang/app1/about'
+      fullPath: '/$lang/app1/about'
+      preLoaderRoute: typeof LangApp1AboutImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
+    '/$lang/app1/': {
+      id: '/$lang/app1/'
+      path: '/$lang/app1'
+      fullPath: '/$lang/app1'
+      preLoaderRoute: typeof LangApp1IndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -52,38 +52,38 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/$lang/app1/about': typeof LangApp1AboutRoute
+  '/$lang/app1': typeof LangApp1IndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/$lang/app1/about': typeof LangApp1AboutRoute
+  '/$lang/app1': typeof LangApp1IndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/$lang/app1/about': typeof LangApp1AboutRoute
+  '/$lang/app1/': typeof LangApp1IndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/$lang/app1/about' | '/$lang/app1'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/$lang/app1/about' | '/$lang/app1'
+  id: '__root__' | '/$lang/app1/about' | '/$lang/app1/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  LangApp1AboutRoute: typeof LangApp1AboutRoute
+  LangApp1IndexRoute: typeof LangApp1IndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  LangApp1AboutRoute: LangApp1AboutRoute,
+  LangApp1IndexRoute: LangApp1IndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -96,15 +96,15 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/about"
+        "/$lang/app1/about",
+        "/$lang/app1/"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/$lang/app1/about": {
+      "filePath": "$lang/app1/about.tsx"
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/$lang/app1/": {
+      "filePath": "$lang/app1/index.tsx"
     }
   }
 }

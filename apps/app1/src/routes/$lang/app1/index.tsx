@@ -1,8 +1,7 @@
-import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { SharedComponent } from "@repo/ui/shared-component";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/$lang/app1/")({
 	component: HomeComponent,
 });
 
