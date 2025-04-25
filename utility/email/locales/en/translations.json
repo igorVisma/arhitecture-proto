@@ -1,0 +1,12 @@
+{
+	"email": {
+		"document": {
+			"title": "Your document is ready",
+			"signedMessage": "All invited parties have signed the document ääkköset sent by Evil corp, using the Visma Sign service.",
+			"findTitle": "Where can I find the document?",
+			"downloadInfo": "The signed document is available for download by clicking the link below. Please note the following:",
+			"availability": "The document is available for 30 days from the date of signing.",
+			"buttonText": "Download the document"
+		}
+	}
+}

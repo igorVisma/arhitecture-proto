@@ -4,13 +4,22 @@
 	"private": true,
 	"scripts": {
 		"dev": "email dev -p 3001",
-		"export": "email export"
+		"export": "email export",
+		"twig": "ts-node ./build-twig.ts",
+		"build-test": "ts-node ./test.ts"
 	},
 	"devDependencies": {
-		"react-email": "4.0.7"
+		"@types/node": "^22.13.9",
+		"@types/react": "^19.0.8",
+		"i18next": "^25.0.1",
+		"react-email": "4.0.7",
+		"react-i18next": "^15.5.1",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.8.3"
 	},
 	"dependencies": {
 		"@react-email/components": "0.0.36",
+		"@react-email/render": "1.0.6",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"
 	}

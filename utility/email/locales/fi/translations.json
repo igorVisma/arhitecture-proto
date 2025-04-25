@@ -1,0 +1,12 @@
+{
+	"email": {
+		"document": {
+			"title": "Asiakirjasi on valmis",
+			"signedMessage": "Kaikki kutsutut osapuolet ovat allekirjoittaneet Evil corpin lähettämän asiakirjan ääkköset Visma Sign -palvelulla.",
+			"findTitle": "Mistä löydän asiakirjan?",
+			"downloadInfo": "Allekirjoitettu asiakirja on ladattavissa alla olevasta linkistä. Huomioithan seuraavat seikat:",
+			"availability": "Asiakirja on saatavilla 30 päivän ajan allekirjoituspäivästä.",
+			"buttonText": "Lataa asiakirja"
+		}
+	}
+}
