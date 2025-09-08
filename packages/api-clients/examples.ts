@@ -2,7 +2,7 @@
  * Simple examples for API clients usage
  */
 
-import { VismaSignApiClient, ShareLinkApiClient, UserServiceClient } from "./src";
+import { VismaSignApiClient, ShareLinkApiClient } from "./src";
 
 // Basic usage example
 async function basicExample() {
@@ -15,10 +15,6 @@ async function basicExample() {
 
 	const shareLinkClient = new ShareLinkApiClient({
 		baseURL: "https://share-link-api.example.com",
-	});
-
-	const userClient = new UserServiceClient({
-		baseURL: "https://user-service.example.com",
 	});
 
 	// Get products
@@ -88,27 +84,12 @@ async function errorHandlingExample() {
 async function authExample() {
 	console.log("\n=== Authentication ===");
 
-	const userClient = new UserServiceClient({
-		baseURL: "https://user-service.example.com",
-	});
-
 	const vismaSignClient = new VismaSignApiClient({
 		baseURL: "https://visma-sign-api.example.com",
 	});
 
-	// Login first
-	const login = await userClient.login({
-		email: "admin@example.com",
-		password: "admin123",
-	});
-
-	if (login.error) {
-		console.error("Login failed:", login.error.message);
-		return;
-	}
-
 	// Set token for other API calls
-	vismaSignClient.setAuthToken(login.data.token);
+	vismaSignClient.setAuthToken("#####");
 
 	// Now make authenticated requests
 	const products = await vismaSignClient.getProducts();
@@ -124,7 +105,6 @@ async function runExamples() {
 	await basicExample();
 	await errorHandlingExample();
 	await authExample();
-	console.log("\n✅ All examples completed");
 }
 
 // Export main function

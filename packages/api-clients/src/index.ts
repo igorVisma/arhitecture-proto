@@ -17,9 +17,6 @@ export type * from "./visma-sign-api/types";
 export { ShareLinkApiClient } from "./share-link-api/client";
 export type * from "./share-link-api/types";
 
-// Export User Service client
-export { UserServiceClient } from "./user-service/client";
-
 /**
  * Default configurations for common environments
  */
