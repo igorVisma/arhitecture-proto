@@ -9,6 +9,7 @@ export class UserServiceClient extends BaseApiClient {
 
 	/**
 	 * Login user with email and password
+	 * @method POST /auth/login
 	 */
 	async login(credentials: LoginRequest): Promise<ApiResult<LoginResponse, UserServiceError>> {
 		return this.post<LoginResponse, UserServiceError, LoginRequest>("/auth/login", credentials);
@@ -16,6 +17,7 @@ export class UserServiceClient extends BaseApiClient {
 
 	/**
 	 * Get all users with optional filtering
+	 * @method GET /users
 	 */
 	async getUsers(params?: URLSearchParams): Promise<ApiResult<UsersListResponse, UserServiceError>> {
 		return this.get<UsersListResponse, UserServiceError>("/users", { params });

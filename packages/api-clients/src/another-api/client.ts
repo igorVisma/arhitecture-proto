@@ -9,6 +9,7 @@ export class AnotherApiClient extends BaseApiClient {
 
 	/**
 	 * Get all orders with optional filtering
+	 * @method GET /orders
 	 */
 	async getOrders(params?: URLSearchParams): Promise<ApiResult<OrdersListResponse, AnotherApiError>> {
 		return this.get<OrdersListResponse, AnotherApiError>("/orders", { params });
@@ -16,6 +17,7 @@ export class AnotherApiClient extends BaseApiClient {
 
 	/**
 	 * Create a new order
+	 * @method POST /orders
 	 */
 	async createOrder(orderData: CreateOrderRequest): Promise<ApiResult<OrderResponse, AnotherApiError>> {
 		return this.post<OrderResponse, AnotherApiError, CreateOrderRequest>("/orders", orderData);
