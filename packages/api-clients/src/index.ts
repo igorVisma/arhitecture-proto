@@ -13,9 +13,9 @@ export { createSuccessResult, createErrorResult } from "./types";
 export { Api1Client } from "./api-1/client";
 export type * from "./api-1/types";
 
-// Export Another API client
-export { AnotherApiClient } from "./another-api/client";
-export type * from "./another-api/types";
+// Export Share Link API client
+export { ShareLinkApiClient } from "./share-link-api/client";
+export type * from "./share-link-api/types";
 
 // Export User Service client
 export { UserServiceClient } from "./user-service/client";
@@ -27,17 +27,17 @@ export type * from "./user-service/types";
 export const defaultConfigs = {
 	development: {
 		api1: { baseURL: "http://localhost:3001" },
-		anotherApi: { baseURL: "http://localhost:3002" },
+		shareLinkApi: { baseURL: "http://localhost:3002" },
 		userService: { baseURL: "http://localhost:3003" },
 	},
 	staging: {
 		api1: { baseURL: "https://api-1-staging.example.com" },
-		anotherApi: { baseURL: "https://another-api-staging.example.com" },
+		shareLinkApi: { baseURL: "https://share-link-api-staging.example.com" },
 		userService: { baseURL: "https://user-service-staging.example.com" },
 	},
 	production: {
 		api1: { baseURL: "https://api-1.example.com" },
-		anotherApi: { baseURL: "https://another-api.example.com" },
+		shareLinkApi: { baseURL: "https://share-link-api.example.com" },
 		userService: { baseURL: "https://user-service.example.com" },
 	},
 };

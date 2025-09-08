@@ -1,8 +1,8 @@
 import { BaseApiClient } from "../base-client";
 import { BaseClientConfig } from "../types";
-import { CreateOrderRequest, OrdersListResponse, OrderResponse, AnotherApiError } from "./types";
+import { CreateOrderRequest, OrdersListResponse, OrderResponse, ShareLinkApiError } from "./types";
 
-export class AnotherApiClient extends BaseApiClient {
+export class ShareLinkApiClient extends BaseApiClient {
 	constructor(config: BaseClientConfig) {
 		super(config);
 	}
@@ -12,7 +12,7 @@ export class AnotherApiClient extends BaseApiClient {
 	 * @method GET /orders
 	 */
 	async getOrders(params?: URLSearchParams) {
-		return this.get<OrdersListResponse, AnotherApiError>("/orders", { params });
+		return this.get<OrdersListResponse, ShareLinkApiError>("/orders", { params });
 	}
 
 	/**
@@ -20,7 +20,7 @@ export class AnotherApiClient extends BaseApiClient {
 	 * @method POST /orders
 	 */
 	async createOrder(orderData: CreateOrderRequest) {
-		return this.post<OrderResponse, AnotherApiError, CreateOrderRequest>("/orders", orderData);
+		return this.post<OrderResponse, ShareLinkApiError, CreateOrderRequest>("/orders", orderData);
 	}
 }
 

@@ -1,5 +1,5 @@
 /**
- * Types for Another API service (Order Management)
+ * Types for Share Link API service (Order Management)
  */
 
 export interface Order {
@@ -79,7 +79,7 @@ export interface OrderStatusHistoryResponse {
 	history: OrderStatusHistory[];
 }
 
-export interface AnotherApiError {
+export interface ShareLinkApiError {
 	message: string;
 	code:
 		| "ORDER_NOT_FOUND"

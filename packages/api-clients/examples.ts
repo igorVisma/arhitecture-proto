@@ -3,7 +3,7 @@
  * This file demonstrates how to use the different API clients in a real application
  */
 
-import { Api1Client, AnotherApiClient, UserServiceClient } from "./src/index";
+import { Api1Client, ShareLinkApiClient, UserServiceClient } from "./src/index";
 
 // Example 1: Individual client creation and usage
 async function individualClientExample() {
@@ -18,7 +18,9 @@ async function individualClientExample() {
 		},
 	});
 
-	const orderClient = new AnotherApiClient({
+	api1Client.
+
+	const orderClient = new ShareLinkApiClient({
 		baseURL: "https://orders-api.example.com",
 	});
 
@@ -76,7 +78,7 @@ async function individualClientExample() {
 
 		console.log(`Found ${usersResult.data!.users.length} users`);
 
-		// Use Another API client for orders
+		// Use Share Link API client for orders
 		console.log("Creating order...");
 		const newOrderResult = await orderClient.createOrder({
 			customerId: loginResult.data!.user.id,
@@ -210,7 +212,7 @@ async function parallelOperationsExample() {
 		baseURL: "https://api-1.example.com",
 	});
 
-	const orderClient = new AnotherApiClient({
+	const orderClient = new ShareLinkApiClient({
 		baseURL: "https://orders-api.example.com",
 	});
 
