@@ -1,0 +1,44 @@
+{
+  "name": "@turbo-proto/api-clients",
+  "version": "1.0.0",
+  "description": "Collection of API clients for different services",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "require": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./api-1/client": {
+      "import": "./src/api-1/client.ts",
+      "require": "./src/api-1/client.ts",
+      "types": "./src/api-1/client.ts"
+    },
+    "./another-api/client": {
+      "import": "./src/another-api/client.ts",
+      "require": "./src/another-api/client.ts",
+      "types": "./src/another-api/client.ts"
+    },
+    "./user-service/client": {
+      "import": "./src/user-service/client.ts",
+      "require": "./src/user-service/client.ts",
+      "types": "./src/user-service/client.ts"
+    }
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "api",
+    "client",
+    "axios",
+    "typescript",
+    "rest"
+  ],
+  "author": "",
+  "license": "MIT"
+}

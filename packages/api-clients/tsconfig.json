@@ -1,0 +1,19 @@
+{
+	// "extends": "@turbo-proto/typescript-config/base.json",
+	"compilerOptions": {
+		"module": "NodeNext",
+		"declaration": true,
+		"declarationMap": true,
+		"sourceMap": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "nodenext",
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"noEmit": true
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules"]
+}
