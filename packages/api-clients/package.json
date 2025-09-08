@@ -1,5 +1,5 @@
 {
-	"name": "@turbo-proto/api-clients",
+	"name": "@repo/api-clients",
 	"version": "1.0.0",
 	"description": "Collection of API clients for different services",
 	"main": "src/index.ts",

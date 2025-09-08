@@ -1,0 +1,61 @@
+{
+	"name": "@repo/api-queries",
+	"version": "1.0.0",
+	"description": "TanStack Query hooks for API clients",
+	"main": "src/index.ts",
+	"types": "src/index.ts",
+	"type": "module",
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"import": "./src/index.ts",
+			"require": "./src/index.ts",
+			"types": "./src/index.ts"
+		},
+		"./visma-sign": {
+			"import": "./src/visma-sign/index.ts",
+			"require": "./src/visma-sign/index.ts",
+			"types": "./src/visma-sign/index.ts"
+		},
+		"./share-link": {
+			"import": "./src/share-link/index.ts",
+			"require": "./src/share-link/index.ts",
+			"types": "./src/share-link/index.ts"
+		},
+		"./user-service": {
+			"import": "./src/user-service/index.ts",
+			"require": "./src/user-service/index.ts",
+			"types": "./src/user-service/index.ts"
+		},
+		"./provider": {
+			"import": "./src/provider.tsx",
+			"require": "./src/provider.tsx",
+			"types": "./src/provider.tsx"
+		}
+	},
+	"peerDependencies": {
+		"@repo/api-clients": "workspace:*",
+		"@tanstack/react-query": "^5.0.0",
+		"react": "^18.0.0"
+	},
+	"devDependencies": {
+		"@repo/api-clients": "workspace:*",
+		"@tanstack/react-query": "^5.0.0",
+		"@types/react": "^18.0.0",
+		"react": "^18.0.0",
+		"typescript": "^5.0.0"
+	},
+	"keywords": [
+		"react-query",
+		"tanstack-query",
+		"api",
+		"hooks",
+		"react",
+		"typescript"
+	],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"react-query-kit": "^3.3.2"
+	}
+}

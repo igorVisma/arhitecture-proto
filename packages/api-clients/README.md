@@ -1,4 +1,4 @@
-# @turbo-proto/api-clients
+# @repo/api-clients
 
 A collection of TypeScript API clients for different services with built-in error handling, request/response logging, and type safety.
 
@@ -11,7 +11,7 @@ In your app's `package.json`, add:
 ```json
 {
   "dependencies": {
-    "@turbo-proto/api-clients": "workspace:*"
+    "@repo/api-clients": "workspace:*"
   }
 }
 ```
@@ -40,9 +40,9 @@ You can import specific clients as needed:
 
 ```typescript
 // Import specific client
-import { Api1Client } from '@turbo-proto/api-clients/api-1/client';
-import { AnotherApiClient } from '@turbo-proto/api-clients/another-api/client';
-import { UserServiceClient } from '@turbo-proto/api-clients/user-service/client';
+import { Api1Client } from '@repo/api-clients/api-1/client';
+import { AnotherApiClient } from '@repo/api-clients/another-api/client';
+import { UserServiceClient } from '@repo/api-clients/user-service/client';
 
 // Create client instances
 const api1Client = new Api1Client({
@@ -71,7 +71,7 @@ import {
   createApi1Client, 
   createAnotherApiClient, 
   createUserServiceClient 
-} from '@turbo-proto/api-clients';
+} from '@repo/api-clients';
 
 const api1Client = createApi1Client({
   baseURL: 'https://api-1.example.com'
@@ -91,7 +91,7 @@ const userClient = createUserServiceClient({
 Create all clients at once with environment-specific configurations:
 
 ```typescript
-import { createClients, defaultConfigs } from '@turbo-proto/api-clients';
+import { createClients, defaultConfigs } from '@repo/api-clients';
 
 // Use default development configuration
 const clients = createClients(defaultConfigs.development);
@@ -114,7 +114,7 @@ const users = await clients.userService?.getUsers();
 ### API-1 Client (Products)
 
 ```typescript
-import { createApi1Client } from '@turbo-proto/api-clients';
+import { createApi1Client } from '@repo/api-clients';
 
 const client = createApi1Client({
   baseURL: 'https://api-1.example.com'
@@ -172,7 +172,7 @@ const searchResult = await client.searchProducts('laptop', 10);
 ### Another API Client (Orders)
 
 ```typescript
-import { createAnotherApiClient } from '@turbo-proto/api-clients';
+import { createAnotherApiClient } from '@repo/api-clients';
 
 const client = createAnotherApiClient({
   baseURL: 'https://orders-api.example.com'
@@ -218,7 +218,7 @@ const pendingOrders = await client.getPendingOrders();
 ### User Service Client
 
 ```typescript
-import { createUserServiceClient } from '@turbo-proto/api-clients';
+import { createUserServiceClient } from '@repo/api-clients';
 
 const client = createUserServiceClient({
   baseURL: 'https://users.example.com/api/v1'
@@ -340,9 +340,9 @@ if (result.isFetching) {
 Each API client has its own specific error type:
 
 ```typescript
-import type { Api1Error } from '@turbo-proto/api-clients/api-1/client';
-import type { AnotherApiError } from '@turbo-proto/api-clients/another-api/client';
-import type { UserServiceError } from '@turbo-proto/api-clients/user-service/client';
+import type { Api1Error } from '@repo/api-clients/api-1/client';
+import type { AnotherApiError } from '@repo/api-clients/another-api/client';
+import type { UserServiceError } from '@repo/api-clients/user-service/client';
 
 // API-1 errors have timestamp
 const api1Result = await api1Client.getProduct(1);
@@ -378,18 +378,18 @@ const client = createApi1Client({
 
 ## Available Clients
 
-- **API-1 Client** (`@turbo-proto/api-clients/api-1/client`): Product management
-- **Another API Client** (`@turbo-proto/api-clients/another-api/client`): Order management
-- **User Service Client** (`@turbo-proto/api-clients/user-service/client`): User management and authentication
+- **API-1 Client** (`@repo/api-clients/api-1/client`): Product management
+- **Another API Client** (`@repo/api-clients/another-api/client`): Order management
+- **User Service Client** (`@repo/api-clients/user-service/client`): User management and authentication
 
 ## TypeScript Support
 
 All clients are built with TypeScript and provide full type safety:
 
 ```typescript
-import type { Product, CreateProductRequest } from '@turbo-proto/api-clients/api-1/client';
-import type { Order, OrderStatus } from '@turbo-proto/api-clients/another-api/client';
-import type { User, UserRole } from '@turbo-proto/api-clients/user-service/client';
+import type { Product, CreateProductRequest } from '@repo/api-clients/api-1/client';
+import type { Order, OrderStatus } from '@repo/api-clients/another-api/client';
+import type { User, UserRole } from '@repo/api-clients/user-service/client';
 
 // Types are automatically inferred
 const product: Product = await api1Client.getProduct(1);
