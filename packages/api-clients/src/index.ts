@@ -6,61 +6,20 @@
 
 // Export base classes and types
 export { BaseApiClient } from "./base-client";
-export type {
-	BaseClientConfig,
-	ApiError,
-	ApiResult,
-	RequestConfig,
-} from "./types";
-export { 
-	createSuccessResult,
-	createErrorResult
-} from "./types";
+export type { BaseClientConfig, ApiError, ApiResult, RequestConfig } from "./types";
+export { createSuccessResult, createErrorResult } from "./types";
 
 // Export API-1 client
-export { Api1Client, createApi1Client } from "./api-1/client";
+export { Api1Client } from "./api-1/client";
 export type * from "./api-1/types";
 
 // Export Another API client
-export { AnotherApiClient, createAnotherApiClient } from "./another-api/client";
+export { AnotherApiClient } from "./another-api/client";
 export type * from "./another-api/types";
 
 // Export User Service client
-export { UserServiceClient, createUserServiceClient } from "./user-service/client";
+export { UserServiceClient } from "./user-service/client";
 export type * from "./user-service/types";
-
-// Import types and clients for the factory function
-import { Api1Client, createApi1Client } from "./api-1/client";
-import { AnotherApiClient, createAnotherApiClient } from "./another-api/client";
-import { UserServiceClient, createUserServiceClient } from "./user-service/client";
-import { BaseClientConfig } from "./types";
-
-// Convenience factory functions for all clients
-export const createClients = (configs: {
-	api1?: BaseClientConfig;
-	anotherApi?: BaseClientConfig;
-	userService?: BaseClientConfig;
-}) => {
-	const clients: {
-		api1?: Api1Client;
-		anotherApi?: AnotherApiClient;
-		userService?: UserServiceClient;
-	} = {};
-
-	if (configs.api1) {
-		clients.api1 = createApi1Client(configs.api1);
-	}
-
-	if (configs.anotherApi) {
-		clients.anotherApi = createAnotherApiClient(configs.anotherApi);
-	}
-
-	if (configs.userService) {
-		clients.userService = createUserServiceClient(configs.userService);
-	}
-
-	return clients;
-};
 
 /**
  * Default configurations for common environments

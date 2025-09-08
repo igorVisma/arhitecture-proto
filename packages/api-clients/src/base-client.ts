@@ -1,12 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
-import {
-	ApiError,
-	ApiResult,
-	BaseClientConfig,
-	RequestConfig,
-	createSuccessResult,
-	createErrorResult,
-} from "./types";
+import { ApiError, ApiResult, BaseClientConfig, RequestConfig, createSuccessResult, createErrorResult } from "./types";
 
 /**
  * Base API client class that other clients can extend
@@ -137,6 +130,7 @@ export abstract class BaseApiClient {
 				status: error.response?.status,
 				details: error.response?.data,
 			};
+
 			return apiError;
 		}
 

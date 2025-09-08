@@ -3,14 +3,14 @@
  * This file demonstrates how to use the different API clients in a real application
  */
 
-import { createApi1Client, createAnotherApiClient, createUserServiceClient } from "./src/index";
+import { Api1Client, AnotherApiClient, UserServiceClient } from "./src/index";
 
 // Example 1: Individual client creation and usage
 async function individualClientExample() {
 	console.log("=== Individual Client Example ===");
 
 	// Create individual clients
-	const api1Client = createApi1Client({
+	const api1Client = new Api1Client({
 		baseURL: "https://api-1.example.com",
 		timeout: 10000,
 		headers: {
@@ -18,11 +18,11 @@ async function individualClientExample() {
 		},
 	});
 
-	const orderClient = createAnotherApiClient({
+	const orderClient = new AnotherApiClient({
 		baseURL: "https://orders-api.example.com",
 	});
 
-	const userClient = createUserServiceClient({
+	const userClient = new UserServiceClient({
 		baseURL: "https://users.example.com/api/v1",
 	});
 
@@ -120,7 +120,7 @@ async function individualClientExample() {
 async function errorHandlingExample() {
 	console.log("\n=== Error Handling Example ===");
 
-	const api1Client = createApi1Client({
+	const api1Client = new Api1Client({
 		baseURL: "https://nonexistent-api.example.com",
 	});
 
@@ -155,11 +155,11 @@ async function errorHandlingExample() {
 async function authenticationExample() {
 	console.log("\n=== Authentication Example ===");
 
-	const userClient = createUserServiceClient({
+	const userClient = new UserServiceClient({
 		baseURL: "https://users.example.com/api/v1",
 	});
 
-	const api1Client = createApi1Client({
+	const api1Client = new Api1Client({
 		baseURL: "https://api-1.example.com",
 	});
 
@@ -206,15 +206,15 @@ async function authenticationExample() {
 async function parallelOperationsExample() {
 	console.log("\n=== Parallel Operations Example ===");
 
-	const api1Client = createApi1Client({
+	const api1Client = new Api1Client({
 		baseURL: "https://api-1.example.com",
 	});
 
-	const orderClient = createAnotherApiClient({
+	const orderClient = new AnotherApiClient({
 		baseURL: "https://orders-api.example.com",
 	});
 
-	const userClient = createUserServiceClient({
+	const userClient = new UserServiceClient({
 		baseURL: "https://users.example.com/api/v1",
 	});
 

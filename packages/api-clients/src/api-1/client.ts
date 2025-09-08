@@ -11,7 +11,7 @@ export class Api1Client extends BaseApiClient {
 	 * Get all products with optional filtering
 	 * @method GET /products
 	 */
-	async getProducts(params?: URLSearchParams): Promise<ApiResult<ProductsListResponse, Api1Error>> {
+	async getProducts(params?: URLSearchParams) {
 		return this.get<ProductsListResponse, Api1Error>("/products", { params });
 	}
 
@@ -19,17 +19,10 @@ export class Api1Client extends BaseApiClient {
 	 * Create a new product
 	 * @method POST /products
 	 */
-	async createProduct(productData: CreateProductRequest): Promise<ApiResult<ProductResponse, Api1Error>> {
+	async createProduct(productData: CreateProductRequest) {
 		return this.post<ProductResponse, Api1Error, CreateProductRequest>("/products", productData);
 	}
 }
-
-/**
- * Factory function to create API-1 client instance
- */
-export const createApi1Client = (config: BaseClientConfig): Api1Client => {
-	return new Api1Client(config);
-};
 
 // Export types for external use
 export * from "./types";
