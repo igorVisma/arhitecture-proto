@@ -39,18 +39,6 @@ async function basicExample() {
 		console.log(`Created product: ${newProduct.data.product.name}`);
 	}
 
-	// Login user
-	const loginResult = await userClient.login({
-		email: "user@example.com",
-		password: "password123",
-	});
-
-	if (loginResult.error) {
-		console.error("Login failed:", loginResult.error.message);
-	} else {
-		console.log(`Logged in as: ${loginResult.data.user.username}`);
-	}
-
 	// Get orders
 	const ordersResult = await shareLinkClient.getOrders();
 	if (ordersResult.error) {

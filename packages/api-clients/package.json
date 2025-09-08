@@ -5,26 +5,37 @@
 	"main": "src/index.ts",
 	"types": "src/index.ts",
 	"type": "module",
+	"sideEffects": false,
 	"exports": {
 		".": {
 			"import": "./src/index.ts",
 			"require": "./src/index.ts",
 			"types": "./src/index.ts"
 		},
-		"./api-1/client": {
-			"import": "./src/api-1/client.ts",
-			"require": "./src/api-1/client.ts",
-			"types": "./src/api-1/client.ts"
+		"./visma-sign-api": {
+			"import": "./src/visma-sign-api/client.ts",
+			"require": "./src/visma-sign-api/client.ts",
+			"types": "./src/visma-sign-api/client.ts"
 		},
-		"./another-api/client": {
-			"import": "./src/another-api/client.ts",
-			"require": "./src/another-api/client.ts",
-			"types": "./src/another-api/client.ts"
+		"./share-link-api": {
+			"import": "./src/share-link-api/client.ts",
+			"require": "./src/share-link-api/client.ts",
+			"types": "./src/share-link-api/client.ts"
 		},
-		"./user-service/client": {
-			"import": "./src/user-service/client.ts",
-			"require": "./src/user-service/client.ts",
-			"types": "./src/user-service/client.ts"
+		"./base-client": {
+			"import": "./src/base-client.ts",
+			"require": "./src/base-client.ts",
+			"types": "./src/base-client.ts"
+		},
+		"./types": {
+			"import": "./src/types.ts",
+			"require": "./src/types.ts",
+			"types": "./src/types.ts"
+		},
+		"./configs": {
+			"import": "./src/configs.ts",
+			"require": "./src/configs.ts",
+			"types": "./src/configs.ts"
 		}
 	},
 	"dependencies": {
