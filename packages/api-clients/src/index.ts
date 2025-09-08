@@ -19,7 +19,6 @@ export type * from "./share-link-api/types";
 
 // Export User Service client
 export { UserServiceClient } from "./user-service/client";
-export type * from "./user-service/types";
 
 /**
  * Default configurations for common environments

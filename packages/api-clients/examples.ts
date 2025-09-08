@@ -129,8 +129,3 @@ async function runExamples() {
 
 // Export main function
 export { runExamples };
-
-// Run if called directly
-if (require.main === module) {
-	runExamples().catch(console.error);
-}
