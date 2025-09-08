@@ -1,60 +1,12 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-
-/**
- * Base API error interface
- */
-export interface ApiError {
-	message: string;
-	code?: string;
-	status?: number;
-	details?: unknown;
-}
-
-/**
- * Standardized API result wrapper for all API calls
- */
-export interface ApiResult<TData, TError = ApiError> {
-	data: TData | null;
-	error: TError | null;
-	isFetching: boolean;
-}
-
-/**
- * Success result helper
- */
-export const createSuccessResult = <TData>(data: TData): ApiResult<TData> => ({
-	data,
-	error: null,
-	isFetching: false,
-});
-
-/**
- * Error result helper
- */
-export const createErrorResult = <TData, TError = ApiError>(error: TError): ApiResult<TData, TError> => ({
-	data: null,
-	error,
-	isFetching: false,
-});
-
-/**
- * Loading result helper
- */
-export const createLoadingResult = <TData, TError = ApiError>(): ApiResult<TData, TError> => ({
-	data: null,
-	error: null,
-	isFetching: true,
-});
-
-/**
- * Base configuration for API clients
- */
-export interface BaseClientConfig {
-	baseURL: string;
-	timeout?: number;
-	headers?: Record<string, string>;
-	retries?: number;
-}
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
+import {
+	ApiError,
+	ApiResult,
+	BaseClientConfig,
+	RequestConfig,
+	createSuccessResult,
+	createErrorResult,
+} from "./types";
 
 /**
  * Base API client class that other clients can extend
@@ -79,140 +31,120 @@ export abstract class BaseApiClient {
 	}
 
 	private setupInterceptors(): void {
-		// Request interceptor
-		this.axios.interceptors.request.use(
-			(config) => {
-				console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`);
-				return config;
-			},
-			(error) => {
-				console.error("[API Request Error]", error);
-				return Promise.reject(error);
-			},
-		);
-
-		// Response interceptor
-		this.axios.interceptors.response.use(
-			(response: AxiosResponse) => {
-				console.log(`[API Response] ${response.status} ${response.config.url}`);
-				return response;
-			},
-			(error) => {
-				const apiError: ApiError = {
-					message: error.message || "An error occurred",
-					status: error.response?.status,
-					code: error.code,
-					details: error.response?.data,
-				};
-
-				console.error("[API Response Error]", apiError);
-				return Promise.reject(apiError);
-			},
-		);
+		this.axios.interceptors.response.use((response: AxiosResponse) => {
+			console.log(`[API Response] ${response.status} ${response.config.url}`);
+			return response;
+		});
 	}
 
 	/**
-	 * Generic request method that returns standardized ApiResult
+	 * Generic request method using discriminated union pattern
+	 * Now publicly available for flexible API calls
 	 */
-	protected async request<TData, TError = ApiError>(
-		method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
-		endpoint: string,
-		data?: unknown,
-		config?: AxiosRequestConfig,
+	protected async request<TData, TError = ApiError, TRequestData = unknown>(
+		requestConfig: RequestConfig<TRequestData>,
 	): Promise<ApiResult<TData, TError>> {
 		try {
-			let response: AxiosResponse<TData>;
+			let response: AxiosResponse<TData, TError>;
 
-			switch (method) {
+			switch (requestConfig.method) {
 				case "GET":
-					response = await this.axios.get<TData>(endpoint, config);
+					response = await this.axios.get<TData>(requestConfig.endpoint, requestConfig.config);
 					break;
 				case "POST":
-					response = await this.axios.post<TData>(endpoint, data, config);
+					response = await this.axios.post<TData>(requestConfig.endpoint, requestConfig.data, requestConfig.config);
 					break;
 				case "PUT":
-					response = await this.axios.put<TData>(endpoint, data, config);
+					response = await this.axios.put<TData>(requestConfig.endpoint, requestConfig.data, requestConfig.config);
 					break;
 				case "PATCH":
-					response = await this.axios.patch<TData>(endpoint, data, config);
+					response = await this.axios.patch<TData>(requestConfig.endpoint, requestConfig.data, requestConfig.config);
 					break;
 				case "DELETE":
-					response = await this.axios.delete<TData>(endpoint, config);
+					response = await this.axios.delete<TData>(requestConfig.endpoint, requestConfig.config);
 					break;
 			}
 
 			return createSuccessResult(response.data);
 		} catch (error) {
-			const processedError = this.handleError(error) as TError;
-			return createErrorResult<TData, TError>(processedError);
+			const processedError = this.handleError<TError>(error);
+			return createErrorResult(processedError);
 		}
 	}
 
 	/**
-	 * Generic GET request method
+	 * Convenience method for GET requests
 	 */
-	protected async get<TData, TError = ApiError>(
+	public async get<TData, TError = ApiError>(
 		endpoint: string,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
-		return this.request<TData, TError>("GET", endpoint, undefined, config);
+		return this.request<TData, TError>({ method: "GET", endpoint, config });
 	}
 
 	/**
-	 * Generic POST request method
+	 * Convenience method for POST requests
 	 */
-	protected async post<TData, TError = ApiError, TRequestData = unknown>(
+	public async post<TData, TError = ApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
-		return this.request<TData, TError>("POST", endpoint, data, config);
+		return this.request<TData, TError, TRequestData>({ method: "POST", endpoint, data, config });
 	}
 
 	/**
-	 * Generic PUT request method
+	 * Convenience method for PUT requests
 	 */
-	protected async put<TData, TError = ApiError, TRequestData = unknown>(
+	public async put<TData, TError = ApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
-		return this.request<TData, TError>("PUT", endpoint, data, config);
+		return this.request<TData, TError, TRequestData>({ method: "PUT", endpoint, data, config });
 	}
 
 	/**
-	 * Generic PATCH request method
+	 * Convenience method for PATCH requests
 	 */
-	protected async patch<TData, TError = ApiError, TRequestData = unknown>(
+	public async patch<TData, TError = ApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
-		return this.request<TData, TError>("PATCH", endpoint, data, config);
+		return this.request<TData, TError, TRequestData>({ method: "PATCH", endpoint, data, config });
 	}
 
 	/**
-	 * Generic DELETE request method
+	 * Convenience method for DELETE requests
 	 */
-	protected async delete<TData, TError = ApiError>(
+	public async delete<TData, TError = ApiError>(
 		endpoint: string,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
-		return this.request<TData, TError>("DELETE", endpoint, undefined, config);
+		return this.request<TData, TError>({ method: "DELETE", endpoint, config });
 	}
 
 	/**
 	 * Error handler that can be overridden by specific clients
 	 */
-	protected handleError(error: unknown): ApiError {
-		if (error && typeof error === "object" && "message" in error) {
-			return error as ApiError;
+	protected handleError<TError = ApiError>(error: unknown): TError {
+		// Handle axios errors with proper type checking
+		if (isAxiosError(error)) {
+			const apiError: ApiError = {
+				message: error.message || "Request failed",
+				code: error.code,
+				status: error.response?.status,
+				details: error.response?.data,
+			};
+			return apiError;
 		}
 
-		return {
-			message: "Unknown error occurred",
+		const genericError: ApiError = {
+			message: error instanceof Error ? error.message : "Unknown error occurred",
 			details: error,
 		};
+		return genericError as TError;
 	}
 
 	/**

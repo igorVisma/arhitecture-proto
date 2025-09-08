@@ -1,7 +1,8 @@
 {
 	// "extends": "@turbo-proto/typescript-config/base.json",
 	"compilerOptions": {
-		"module": "NodeNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,
@@ -9,10 +10,10 @@
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
-		"moduleResolution": "nodenext",
 		"resolveJsonModule": true,
 		"allowSyntheticDefaultImports": true,
-		"noEmit": true
+		"noEmit": true,
+		"target": "ES2022"
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules"]

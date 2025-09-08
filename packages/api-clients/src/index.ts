@@ -1,20 +1,21 @@
 /**
- *// Export base classes and types
-export { 
-	BaseApiClient, 
-	type BaseClientConfig, 
-	type ApiError, 
-	type ApiResult,
-	createSuccessResult,
-	createErrorResult,
-	createLoadingResult
-} from './base-client';turbo-proto/api-clients
+ * @package api-clients
  *
  * A collection of API clients for different services with TypeScript support
  */
 
 // Export base classes and types
-export { BaseApiClient, type BaseClientConfig, type ApiError, type ApiResponse } from "./base-client";
+export { BaseApiClient } from "./base-client";
+export type {
+	BaseClientConfig,
+	ApiError,
+	ApiResult,
+	RequestConfig,
+} from "./types";
+export { 
+	createSuccessResult,
+	createErrorResult
+} from "./types";
 
 // Export API-1 client
 export { Api1Client, createApi1Client } from "./api-1/client";
@@ -32,7 +33,7 @@ export type * from "./user-service/types";
 import { Api1Client, createApi1Client } from "./api-1/client";
 import { AnotherApiClient, createAnotherApiClient } from "./another-api/client";
 import { UserServiceClient, createUserServiceClient } from "./user-service/client";
-import { BaseClientConfig } from "./base-client";
+import { BaseClientConfig } from "./types";
 
 // Convenience factory functions for all clients
 export const createClients = (configs: {

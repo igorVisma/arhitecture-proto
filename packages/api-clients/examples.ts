@@ -3,13 +3,7 @@
  * This file demonstrates how to use the different API clients in a real application
  */
 
-import {
-	createApi1Client,
-	createAnotherApiClient,
-	createUserServiceClient,
-	createClients,
-	defaultConfigs,
-} from "./src/index";
+import { createApi1Client, createAnotherApiClient, createUserServiceClient } from "./src/index";
 
 // Example 1: Individual client creation and usage
 async function individualClientExample() {
@@ -35,13 +29,13 @@ async function individualClientExample() {
 	try {
 		// Use API-1 client
 		console.log("Fetching products...");
-		const productsResult = await api1Client.getProducts({ limit: 5 });
-		
+		const productsResult = await api1Client.getProducts(new URLSearchParams({ limit: "5" }));
+
 		if (productsResult.error) {
 			console.error("Error fetching products:", productsResult.error.message);
 			return;
 		}
-		
+
 		console.log(`Found ${productsResult.data!.products.length} products`);
 
 		// Create a new product
@@ -51,12 +45,12 @@ async function individualClientExample() {
 			price: 29.99,
 			category: "demo",
 		});
-		
+
 		if (newProductResult.error) {
 			console.error("Error creating product:", newProductResult.error.message);
 			return;
 		}
-		
+
 		console.log(`Created product with ID: ${newProductResult.data!.product.id}`);
 
 		// Use User Service client
@@ -65,22 +59,22 @@ async function individualClientExample() {
 			email: "demo@example.com",
 			password: "demopassword",
 		});
-		
+
 		if (loginResult.error) {
 			console.error("Login failed:", loginResult.error.message);
 			return;
 		}
-		
+
 		console.log(`Logged in as: ${loginResult.data!.user.username}`);
 
-		// Get current user info
-		const currentUserResult = await userClient.getCurrentUser();
-		if (currentUserResult.error) {
-			console.error("Error getting current user:", currentUserResult.error.message);
+		// Get all users
+		const usersResult = await userClient.getUsers(new URLSearchParams({ limit: "10" }));
+		if (usersResult.error) {
+			console.error("Error getting users:", usersResult.error.message);
 			return;
 		}
-		
-		console.log(`Current user: ${currentUserResult.data!.user.email}`);
+
+		console.log(`Found ${usersResult.data!.users.length} users`);
 
 		// Use Another API client for orders
 		console.log("Creating order...");
@@ -95,110 +89,69 @@ async function individualClientExample() {
 				country: "US",
 			},
 		});
-		
+
 		if (newOrderResult.error) {
 			console.error("Error creating order:", newOrderResult.error.message);
 			return;
 		}
-		
+
 		console.log(`Created order with ID: ${newOrderResult.data!.order.id}`);
 
-		// Update order status
-		const updateResult = await orderClient.updateOrderStatus(newOrderResult.data!.order.id, {
-			status: "confirmed",
-			notes: "Order confirmed by demo",
-		});
-		
-		if (updateResult.error) {
-			console.error("Error updating order status:", updateResult.error.message);
+		// Get orders with filtering
+		const ordersResult = await orderClient.getOrders(
+			new URLSearchParams({
+				customerId: loginResult.data!.user.id.toString(),
+				limit: "5",
+			}),
+		);
+
+		if (ordersResult.error) {
+			console.error("Error getting orders:", ordersResult.error.message);
 			return;
 		}
-		
-		console.log("Order status updated to confirmed");
+
+		console.log(`Found ${ordersResult.data!.orders.length} orders for customer`);
 	} catch (error) {
 		console.error("Error in individual client example:", error);
 	}
 }
 
-// Example 2: Using the convenience factory for multiple clients
-async function multipleClientsExample() {
-	console.log("\n=== Multiple Clients Example ===");
-
-	// Create all clients at once using development configuration
-	const clients = createClients(defaultConfigs.development);
-
-	try {
-		// Check if clients are available
-		if (clients.userService) {
-			console.log("Getting users...");
-			const usersResult = await clients.userService.getUsers({ limit: 3 });
-			if (usersResult.error) {
-				console.error("Error getting users:", usersResult.error.message);
-			} else {
-				console.log(`Found ${usersResult.data!.users.length} users`);
-			}
-		}
-
-		if (clients.api1) {
-			console.log("Searching products...");
-			const searchResult = await clients.api1.searchProducts("demo", 5);
-			if (searchResult.error) {
-				console.error("Error searching products:", searchResult.error.message);
-			} else {
-				console.log(`Search returned ${searchResult.data!.products.length} products`);
-			}
-		}
-
-		if (clients.anotherApi) {
-			console.log("Getting recent orders...");
-			const ordersResult = await clients.anotherApi.getOrders({ limit: 3 });
-			if (ordersResult.error) {
-				console.error("Error getting orders:", ordersResult.error.message);
-			} else {
-				console.log(`Found ${ordersResult.data!.orders.length} recent orders`);
-			}
-		}
-	} catch (error) {
-		console.error("Error in multiple clients example:", error);
-	}
-}
-
-// Example 3: Error handling demonstration
+// Example 2: Error handling demonstration
 async function errorHandlingExample() {
 	console.log("\n=== Error Handling Example ===");
 
 	const api1Client = createApi1Client({
-		baseURL: "https://api-1.example.com",
+		baseURL: "https://nonexistent-api.example.com",
 	});
 
 	try {
 		// This will likely return an error result instead of throwing
-		const result = await api1Client.getProduct(999999);
-		
+		const result = await api1Client.getProducts();
+
 		if (result.error) {
 			console.log("API returned error result:");
 			console.log("- Message:", result.error.message);
 			console.log("- Status:", result.error.status);
 			console.log("- Code:", result.error.code);
-			console.log("- Timestamp:", result.error.timestamp);
-			
+
 			// Handle specific error cases
 			if (result.error.status === 404) {
-				console.log("Product not found (HTTP 404)");
-			} else if (result.error.code === "PRODUCT_NOT_FOUND") {
-				console.log("Product not found (API-specific error)");
+				console.log("Resource not found (HTTP 404)");
+			} else if (result.error.status === 500) {
+				console.log("Server error (HTTP 500)");
 			} else {
 				console.log("Other error occurred");
 			}
 		} else {
-			console.log("Product found:", result.data?.product);
+			console.log("Products found:", result.data?.products.length);
 		}
 	} catch (error: any) {
 		// This should rarely happen now since errors are returned in the result
-		console.error("Unexpected error (this shouldn't happen often):", error);
+		console.error("Unexpected error:", error);
+	}
 }
 
-// Example 4: Advanced usage with authentication
+// Example 3: Authentication workflow
 async function authenticationExample() {
 	console.log("\n=== Authentication Example ===");
 
@@ -216,15 +169,19 @@ async function authenticationExample() {
 			email: "admin@example.com",
 			password: "adminpassword",
 		});
-		
+
 		if (loginResult.error) {
 			console.error("Login failed:", loginResult.error.message);
 			return;
 		}
-		
+
 		console.log(`Logged in as: ${loginResult.data!.user.username}`);
 
-		// Use the token for other API calls (token is automatically set after successful login)
+		// The token is automatically set in the client after successful login
+		// Now we can make authenticated requests to other APIs using the same token
+		api1Client.setAuthToken(loginResult.data!.token);
+
+		// Use authenticated requests
 		const productsResult = await api1Client.getProducts();
 		if (productsResult.error) {
 			console.error("Error fetching products:", productsResult.error.message);
@@ -232,102 +189,73 @@ async function authenticationExample() {
 			console.log(`Fetched ${productsResult.data!.products.length} products with authentication`);
 		}
 
-		// Update user profile
-		const profileResult = await userClient.updateCurrentUserProfile({
-			bio: "Updated via API client demo",
-			preferences: {
-				theme: "dark",
-				language: "en",
-				timezone: "UTC",
-				notifications: {
-					email: true,
-					push: false,
-					sms: false,
-				},
-			},
-		});
-		
-		if (profileResult.error) {
-			console.error("Error updating profile:", profileResult.error.message);
-		} else {
-			console.log("User profile updated");
-		}
+		// Get users (admin only)
+		const usersResult = await userClient.getUsers(new URLSearchParams({ role: "admin" }));
 
-		// Refresh token before it expires
-		const refreshResult = await userClient.refreshToken({
-			refreshToken: loginResult.data!.refreshToken,
-		});
-		
-		if (refreshResult.error) {
-			console.error("Token refresh failed:", refreshResult.error.message);
+		if (usersResult.error) {
+			console.error("Error getting admin users:", usersResult.error.message);
 		} else {
-			console.log("Token refreshed successfully");
-		}
-
-		// Logout when done
-		const logoutResult = await userClient.logout();
-		if (logoutResult.error) {
-			console.error("Logout failed:", logoutResult.error.message);
-		} else {
-			console.log("Logged out successfully");
+			console.log(`Found ${usersResult.data!.users.length} admin users`);
 		}
 	} catch (error) {
 		console.error("Error in authentication example:", error);
 	}
 }
 
-// Example 5: Batch operations
-async function batchOperationsExample() {
-	console.log("\n=== Batch Operations Example ===");
+// Example 4: Parallel operations
+async function parallelOperationsExample() {
+	console.log("\n=== Parallel Operations Example ===");
 
-	const clients = createClients({
-		api1: { baseURL: "https://api-1.example.com" },
-		anotherApi: { baseURL: "https://orders-api.example.com" },
-		userService: { baseURL: "https://users.example.com/api/v1" },
+	const api1Client = createApi1Client({
+		baseURL: "https://api-1.example.com",
+	});
+
+	const orderClient = createAnotherApiClient({
+		baseURL: "https://orders-api.example.com",
+	});
+
+	const userClient = createUserServiceClient({
+		baseURL: "https://users.example.com/api/v1",
 	});
 
 	try {
 		// Perform multiple operations in parallel
 		const [productsResult, ordersResult, usersResult] = await Promise.all([
-			clients.api1?.getProducts({ limit: 5 }) ?? Promise.resolve(null),
-			clients.anotherApi?.getOrders({ limit: 5 }) ?? Promise.resolve(null),
-			clients.userService?.getUsers({ limit: 5 }) ?? Promise.resolve(null),
+			api1Client.getProducts(new URLSearchParams({ limit: "5" })),
+			orderClient.getOrders(new URLSearchParams({ limit: "5" })),
+			userClient.getUsers(new URLSearchParams({ limit: "5" })),
 		]);
 
 		console.log("Parallel requests completed:");
-		console.log(`- Products: ${productsResult?.data?.products.length || 0} (${productsResult?.error ? 'error' : 'success'})`);
-		console.log(`- Orders: ${ordersResult?.data?.orders.length || 0} (${ordersResult?.error ? 'error' : 'success'})`);
-		console.log(`- Users: ${usersResult?.data?.users.length || 0} (${usersResult?.error ? 'error' : 'success'})`);
+		console.log(
+			`- Products: ${productsResult.data?.products.length || 0} (${productsResult.error ? "error" : "success"})`,
+		);
+		console.log(`- Orders: ${ordersResult.data?.orders.length || 0} (${ordersResult.error ? "error" : "success"})`);
+		console.log(`- Users: ${usersResult.data?.users.length || 0} (${usersResult.error ? "error" : "success"})`);
 
-		// Create multiple products in sequence
-		if (clients.api1) {
-			const productPromises = [
-				clients.api1.createProduct({
-					name: "Batch Product 1",
-					description: "First batch product",
-					price: 19.99,
-					category: "batch",
-				}),
-				clients.api1.createProduct({
-					name: "Batch Product 2",
-					description: "Second batch product",
-					price: 29.99,
-					category: "batch",
-				}),
-				clients.api1.createProduct({
-					name: "Batch Product 3",
-					description: "Third batch product",
-					price: 39.99,
-					category: "batch",
-				}),
-			];
+		// Create multiple products in parallel
+		const productPromises = [
+			api1Client.createProduct({
+				name: "Batch Product 1",
+				description: "First batch product",
+				price: 19.99,
+				category: "batch",
+			}),
+			api1Client.createProduct({
+				name: "Batch Product 2",
+				description: "Second batch product",
+				price: 29.99,
+				category: "batch",
+			}),
+		];
 
-			const createdProducts = await Promise.all(productPromises);
-			const successfulProducts = createdProducts.filter(result => !result.error);
-			console.log(`Created ${successfulProducts.length} products in batch (${createdProducts.length - successfulProducts.length} failed)`);
-		}
+		const createdProducts = await Promise.all(productPromises);
+		const successfulProducts = createdProducts.filter((result) => !result.error);
+		console.log(
+			`Created ${successfulProducts.length} products in batch (${createdProducts.length - successfulProducts.length} failed)`,
+		);
 	} catch (error) {
-		console.error("Error in batch operations example:", error);
+		console.error("Error in parallel operations example:", error);
 	}
 }
 
@@ -337,10 +265,9 @@ async function runAllExamples() {
 	console.log("============================");
 
 	await individualClientExample();
-	await multipleClientsExample();
 	await errorHandlingExample();
 	await authenticationExample();
-	await batchOperationsExample();
+	await parallelOperationsExample();
 
 	console.log("\n=== All Examples Completed ===");
 }
@@ -348,9 +275,8 @@ async function runAllExamples() {
 // Export for use in other files
 export {
 	individualClientExample,
-	multipleClientsExample,
 	errorHandlingExample,
 	authenticationExample,
-	batchOperationsExample,
+	parallelOperationsExample,
 	runAllExamples,
 };
