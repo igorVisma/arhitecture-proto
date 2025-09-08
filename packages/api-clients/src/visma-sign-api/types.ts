@@ -1,5 +1,5 @@
 /**
- * Types for API-1 service
+ * Types for Visma Sign API service
  */
 
 export interface Product {
@@ -48,7 +48,7 @@ export interface ProductResponse {
 	product: Product;
 }
 
-export interface Api1Error {
+export interface VismaSignApiError {
 	message: string;
 	code: "PRODUCT_NOT_FOUND" | "INVALID_INPUT" | "UNAUTHORIZED" | "SERVER_ERROR";
 	status: number;

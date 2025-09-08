@@ -9,9 +9,9 @@ export { BaseApiClient } from "./base-client";
 export type { BaseClientConfig, ApiError, ApiResult, RequestConfig } from "./types";
 export { createSuccessResult, createErrorResult } from "./types";
 
-// Export API-1 client
-export { Api1Client } from "./api-1/client";
-export type * from "./api-1/types";
+// Export Visma Sign API client
+export { VismaSignApiClient } from "./visma-sign-api/client";
+export type * from "./visma-sign-api/types";
 
 // Export Share Link API client
 export { ShareLinkApiClient } from "./share-link-api/client";
@@ -26,17 +26,17 @@ export type * from "./user-service/types";
  */
 export const defaultConfigs = {
 	development: {
-		api1: { baseURL: "http://localhost:3001" },
+		vismaSignApi: { baseURL: "http://localhost:3001" },
 		shareLinkApi: { baseURL: "http://localhost:3002" },
 		userService: { baseURL: "http://localhost:3003" },
 	},
 	staging: {
-		api1: { baseURL: "https://api-1-staging.example.com" },
+		vismaSignApi: { baseURL: "https://visma-sign-api-staging.example.com" },
 		shareLinkApi: { baseURL: "https://share-link-api-staging.example.com" },
 		userService: { baseURL: "https://user-service-staging.example.com" },
 	},
 	production: {
-		api1: { baseURL: "https://api-1.example.com" },
+		vismaSignApi: { baseURL: "https://visma-sign-api.example.com" },
 		shareLinkApi: { baseURL: "https://share-link-api.example.com" },
 		userService: { baseURL: "https://user-service.example.com" },
 	},
