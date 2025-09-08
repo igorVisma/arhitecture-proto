@@ -30,6 +30,20 @@ export abstract class BaseApiClient {
 		});
 	}
 
+	get _axiosInstance(): AxiosInstance {
+		return this.axios;
+	}
+
+	get _methods() {
+		return {
+			get: this.get,
+			post: this.post,
+			put: this.put,
+			patch: this.patch,
+			delete: this.delete,
+		};
+	}
+
 	/**
 	 * Generic request method using discriminated union pattern
 	 * Now publicly available for flexible API calls
@@ -65,20 +79,14 @@ export abstract class BaseApiClient {
 		}
 	}
 
-	/**
-	 * Convenience method for GET requests
-	 */
-	public async get<TData, TError = ApiError>(
+	protected async get<TData, TError = ApiError>(
 		endpoint: string,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
 		return this.request<TData, TError>({ method: "GET", endpoint, config });
 	}
 
-	/**
-	 * Convenience method for POST requests
-	 */
-	public async post<TData, TError = ApiError, TRequestData = unknown>(
+	protected async post<TData, TError = ApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
@@ -86,10 +94,7 @@ export abstract class BaseApiClient {
 		return this.request<TData, TError, TRequestData>({ method: "POST", endpoint, data, config });
 	}
 
-	/**
-	 * Convenience method for PUT requests
-	 */
-	public async put<TData, TError = ApiError, TRequestData = unknown>(
+	protected async put<TData, TError = ApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
@@ -97,10 +102,7 @@ export abstract class BaseApiClient {
 		return this.request<TData, TError, TRequestData>({ method: "PUT", endpoint, data, config });
 	}
 
-	/**
-	 * Convenience method for PATCH requests
-	 */
-	public async patch<TData, TError = ApiError, TRequestData = unknown>(
+	protected async patch<TData, TError = ApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
@@ -108,10 +110,7 @@ export abstract class BaseApiClient {
 		return this.request<TData, TError, TRequestData>({ method: "PATCH", endpoint, data, config });
 	}
 
-	/**
-	 * Convenience method for DELETE requests
-	 */
-	public async delete<TData, TError = ApiError>(
+	protected async delete<TData, TError = ApiError>(
 		endpoint: string,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {

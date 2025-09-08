@@ -17,11 +17,8 @@ async function individualClientExample() {
 			"X-API-Key": "your-api-key",
 		},
 	});
-
-	api1Client.
-
-	const orderClient = new ShareLinkApiClient({
-		baseURL: "https://orders-api.example.com",
+	const shareLinkClient = new ShareLinkApiClient({
+		baseURL: "https://share-link-staging.com/v1",
 	});
 
 	const userClient = new UserServiceClient({
@@ -80,7 +77,7 @@ async function individualClientExample() {
 
 		// Use Share Link API client for orders
 		console.log("Creating order...");
-		const newOrderResult = await orderClient.createOrder({
+		const newOrderResult = await shareLinkClient.createOrder({
 			customerId: loginResult.data!.user.id,
 			items: [{ productId: newProductResult.data!.product.id, quantity: 2, unitPrice: 29.99 }],
 			shippingAddress: {
@@ -100,7 +97,7 @@ async function individualClientExample() {
 		console.log(`Created order with ID: ${newOrderResult.data!.order.id}`);
 
 		// Get orders with filtering
-		const ordersResult = await orderClient.getOrders(
+		const ordersResult = await shareLinkClient.getOrders(
 			new URLSearchParams({
 				customerId: loginResult.data!.user.id.toString(),
 				limit: "5",
@@ -212,7 +209,7 @@ async function parallelOperationsExample() {
 		baseURL: "https://api-1.example.com",
 	});
 
-	const orderClient = new ShareLinkApiClient({
+	const shareLinkClient = new ShareLinkApiClient({
 		baseURL: "https://orders-api.example.com",
 	});
 
@@ -224,7 +221,7 @@ async function parallelOperationsExample() {
 		// Perform multiple operations in parallel
 		const [productsResult, ordersResult, usersResult] = await Promise.all([
 			api1Client.getProducts(new URLSearchParams({ limit: "5" })),
-			orderClient.getOrders(new URLSearchParams({ limit: "5" })),
+			shareLinkClient.getOrders(new URLSearchParams({ limit: "5" })),
 			userClient.getUsers(new URLSearchParams({ limit: "5" })),
 		]);
 
