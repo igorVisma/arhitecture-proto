@@ -46,8 +46,6 @@ export class UserServiceClient extends BaseApiClient {
 		super(config);
 	}
 
-	// Authentication methods
-
 	/**
 	 * Login user with email and password
 	 */
@@ -61,31 +59,6 @@ export class UserServiceClient extends BaseApiClient {
 
 		return result;
 	}
-
-	/**
-	 * Refresh authentication token
-	 */
-	async refreshToken(refreshData: RefreshTokenRequest): Promise<ApiResult<LoginResponse, UserServiceError>> {
-		const result = await this.post<LoginResponse, UserServiceError, RefreshTokenRequest>("/auth/refresh", refreshData);
-
-		// Update auth token after refresh
-		if (result.data?.token) {
-			this.setAuthToken(result.data.token);
-		}
-
-		return result;
-	}
-
-	/**
-	 * Logout current user
-	 */
-	async logout(): Promise<ApiResult<void, UserServiceError>> {
-		const result = await this.post<void, UserServiceError>("/auth/logout");
-		this.removeAuthToken();
-		return result;
-	}
-
-	// User management methods
 
 	/**
 	 * Get all users with optional filtering
@@ -102,157 +75,6 @@ export class UserServiceClient extends BaseApiClient {
 		const endpoint = `/users${queryParams.toString() ? `?${queryParams.toString()}` : ""}`;
 
 		return this.get<UsersListResponse, UserServiceError>(endpoint);
-	}
-
-	/**
-	 * Get a single user by ID
-	 */
-	async getUser(id: number): Promise<ApiResult<UserResponse, UserServiceError>> {
-		return this.get<UserResponse, UserServiceError>(`/users/${id}`);
-	}
-
-	/**
-	 * Get current authenticated user
-	 */
-	async getCurrentUser(): Promise<ApiResult<UserResponse, UserServiceError>> {
-		return this.get<UserResponse, UserServiceError>("/users/me");
-	}
-
-	/**
-	 * Create a new user
-	 */
-	async createUser(userData: CreateUserRequest): Promise<ApiResult<UserResponse, UserServiceError>> {
-		return this.post<UserResponse, UserServiceError, CreateUserRequest>("/users", userData);
-	}
-
-	/**
-	 * Update an existing user
-	 */
-	async updateUser(id: number, userData: UpdateUserRequest): Promise<ApiResult<UserResponse, UserServiceError>> {
-		return this.put<UserResponse, UserServiceError, UpdateUserRequest>(`/users/${id}`, userData);
-	}
-
-	/**
-	 * Update current user
-	 */
-	async updateCurrentUser(userData: UpdateUserRequest): Promise<ApiResult<UserResponse, UserServiceError>> {
-		return this.put<UserResponse, UserServiceError, UpdateUserRequest>("/users/me", userData);
-	}
-
-	/**
-	 * Delete a user
-	 */
-	async deleteUser(id: number): Promise<ApiResult<void, UserServiceError>> {
-		return this.delete<void, UserServiceError>(`/users/${id}`);
-	}
-
-	/**
-	 * Deactivate a user (soft delete)
-	 */
-	async deactivateUser(id: number): Promise<ApiResult<UserResponse, UserServiceError>> {
-		return this.updateUser(id, { isActive: false });
-	}
-
-	/**
-	 * Activate a user
-	 */
-	async activateUser(id: number): Promise<ApiResult<UserResponse, UserServiceError>> {
-		return this.updateUser(id, { isActive: true });
-	}
-
-	// Password management
-
-	/**
-	 * Change user password
-	 */
-	async changePassword(passwordData: ChangePasswordRequest): Promise<ApiResult<void, UserServiceError>> {
-		return this.post<void, UserServiceError, ChangePasswordRequest>("/users/me/change-password", passwordData);
-	}
-
-	/**
-	 * Reset password (admin only)
-	 */
-	async resetUserPassword(id: number, newPassword: string): Promise<ApiResult<void, UserServiceError>> {
-		return this.post<void, UserServiceError>(`/users/${id}/reset-password`, { newPassword });
-	}
-
-	// Profile management
-
-	/**
-	 * Get user profile
-	 */
-	async getUserProfile(id: number): Promise<ApiResult<UserProfile, UserServiceError>> {
-		return this.get<UserProfile, UserServiceError>(`/users/${id}/profile`);
-	}
-
-	/**
-	 * Get current user profile
-	 */
-	async getCurrentUserProfile(): Promise<ApiResult<UserProfile, UserServiceError>> {
-		return this.get<UserProfile, UserServiceError>("/users/me/profile");
-	}
-
-	/**
-	 * Update user profile
-	 */
-	async updateUserProfile(
-		id: number,
-		profileData: UpdateUserProfileRequest,
-	): Promise<ApiResult<UserProfile, UserServiceError>> {
-		return this.put<UserProfile, UserServiceError, UpdateUserProfileRequest>(`/users/${id}/profile`, profileData);
-	}
-
-	/**
-	 * Update current user profile
-	 */
-	async updateCurrentUserProfile(
-		profileData: UpdateUserProfileRequest,
-	): Promise<ApiResult<UserProfile, UserServiceError>> {
-		return this.put<UserProfile, UserServiceError, UpdateUserProfileRequest>("/users/me/profile", profileData);
-	}
-
-	// Convenience methods
-
-	/**
-	 * Get users by role
-	 */
-	async getUsersByRole(role: UserRole): Promise<ApiResult<UsersListResponse, UserServiceError>> {
-		return this.getUsers({ role });
-	}
-
-	/**
-	 * Get active users only
-	 */
-	async getActiveUsers(): Promise<ApiResult<UsersListResponse, UserServiceError>> {
-		return this.getUsers({ isActive: true });
-	}
-
-	/**
-	 * Search users by email, username, or name
-	 */
-	async searchUsers(searchTerm: string, limit?: number): Promise<ApiResult<UsersListResponse, UserServiceError>> {
-		return this.getUsers({ search: searchTerm, limit });
-	}
-
-	/**
-	 * Get admin users
-	 */
-	async getAdminUsers(): Promise<ApiResult<UsersListResponse, UserServiceError>> {
-		return this.getUsersByRole("admin");
-	}
-
-	/**
-	 * Upload user avatar
-	 */
-	async uploadAvatar(file: File): Promise<ApiResult<UserResponse, UserServiceError>> {
-		const formData = new FormData();
-		formData.append("avatar", file);
-
-		return this.post<UserResponse, UserServiceError>("/users/me/avatar", formData, {
-			headers: {
-				"Content-Type": "multipart/form-data",
-			},
-		});
 	}
 
 	/**

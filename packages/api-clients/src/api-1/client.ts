@@ -56,62 +56,10 @@ export class Api1Client extends BaseApiClient {
 	}
 
 	/**
-	 * Get a single product by ID
-	 */
-	async getProduct(id: number): Promise<ApiResult<ProductResponse, Api1Error>> {
-		return this.get<ProductResponse, Api1Error>(`/products/${id}`);
-	}
-
-	/**
 	 * Create a new product
 	 */
 	async createProduct(productData: CreateProductRequest): Promise<ApiResult<ProductResponse, Api1Error>> {
 		return this.post<ProductResponse, Api1Error, CreateProductRequest>("/products", productData);
-	}
-
-	/**
-	 * Update an existing product
-	 */
-	async updateProduct(id: number, productData: UpdateProductRequest): Promise<ApiResult<ProductResponse, Api1Error>> {
-		return this.put<ProductResponse, Api1Error, UpdateProductRequest>(`/products/${id}`, productData);
-	}
-
-	/**
-	 * Partially update a product
-	 */
-	async patchProduct(
-		id: number,
-		productData: Partial<UpdateProductRequest>,
-	): Promise<ApiResult<ProductResponse, Api1Error>> {
-		return this.patch<ProductResponse, Api1Error, Partial<UpdateProductRequest>>(`/products/${id}`, productData);
-	}
-
-	/**
-	 * Delete a product
-	 */
-	async deleteProduct(id: number): Promise<ApiResult<void, Api1Error>> {
-		return this.delete<void, Api1Error>(`/products/${id}`);
-	}
-
-	/**
-	 * Get products by category
-	 */
-	async getProductsByCategory(category: string): Promise<ApiResult<ProductsListResponse, Api1Error>> {
-		return this.getProducts({ category });
-	}
-
-	/**
-	 * Search products by name or description
-	 */
-	async searchProducts(searchTerm: string, limit?: number): Promise<ApiResult<ProductsListResponse, Api1Error>> {
-		return this.getProducts({ search: searchTerm, limit });
-	}
-
-	/**
-	 * Get only in-stock products
-	 */
-	async getInStockProducts(): Promise<ApiResult<ProductsListResponse, Api1Error>> {
-		return this.getProducts({ inStock: true });
 	}
 
 	/**
