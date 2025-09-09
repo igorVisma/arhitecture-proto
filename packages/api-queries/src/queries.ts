@@ -4,7 +4,6 @@ import { createMutation, createQuery } from "react-query-kit";
 import type {
 	CreateProductRequest,
 	ProductResponse,
-	ProductsListResponse,
 	VismaSignApiError,
 } from "@repo/api-clients/src/visma-sign-api/types";
 import { unwrapResult } from "./utils";
@@ -19,7 +18,7 @@ const createVismaSignHooks = (vismaSignClient: VismaSignApiClient, queryClient: 
 
 	const useMutateProduct = createMutation<ProductResponse, CreateProductRequest, VismaSignApiError>({
 		mutationKey: ["createProduct"],
-		mutationFn: async (productData) => unwrapResult(await vismaSignClient.createProduct(productData)),
+		mutationFn: async (productData) => unwrapResult(await vismaSignClient.products.create(productData)),
 		onSuccess: () => {
 			useGetProducts.getKey();
 			queryClient.fetchQuery(useGetProducts.getFetchOptions());

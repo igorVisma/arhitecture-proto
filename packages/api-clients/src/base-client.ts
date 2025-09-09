@@ -1,5 +1,12 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
-import { ApiError, ApiResult, BaseClientConfig, RequestConfig, createSuccessResult, createErrorResult } from "./types";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, isAxiosError } from "axios";
+import {
+	GenericApiError,
+	ApiResult,
+	BaseClientConfig,
+	RequestConfig,
+	createSuccessResult,
+	createErrorResult,
+} from "./types";
 
 /**
  * Base API client class that other clients can extend
@@ -48,7 +55,7 @@ export abstract class BaseApiClient {
 	 * Generic request method using discriminated union pattern
 	 * Now publicly available for flexible API calls
 	 */
-	protected async request<TData, TError = ApiError, TRequestData = unknown>(
+	protected async request<TData, TError, TRequestData = unknown>(
 		requestConfig: RequestConfig<TRequestData>,
 	): Promise<ApiResult<TData, TError>> {
 		try {
@@ -75,18 +82,18 @@ export abstract class BaseApiClient {
 			return createSuccessResult(response.data);
 		} catch (error) {
 			const processedError = this.handleError<TError>(error);
-			return createErrorResult(processedError);
+			return createErrorResult<TData, TError>(processedError);
 		}
 	}
 
-	protected async get<TData, TError = ApiError>(
+	protected async get<TData, TError = GenericApiError>(
 		endpoint: string,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
 		return this.request<TData, TError>({ method: "GET", endpoint, config });
 	}
 
-	protected async post<TData, TError = ApiError, TRequestData = unknown>(
+	protected async post<TData, TError = GenericApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
@@ -94,7 +101,7 @@ export abstract class BaseApiClient {
 		return this.request<TData, TError, TRequestData>({ method: "POST", endpoint, data, config });
 	}
 
-	protected async put<TData, TError = ApiError, TRequestData = unknown>(
+	protected async put<TData, TError = GenericApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
@@ -102,7 +109,7 @@ export abstract class BaseApiClient {
 		return this.request<TData, TError, TRequestData>({ method: "PUT", endpoint, data, config });
 	}
 
-	protected async patch<TData, TError = ApiError, TRequestData = unknown>(
+	protected async patch<TData, TError = GenericApiError, TRequestData = unknown>(
 		endpoint: string,
 		data?: TRequestData,
 		config?: AxiosRequestConfig,
@@ -110,7 +117,7 @@ export abstract class BaseApiClient {
 		return this.request<TData, TError, TRequestData>({ method: "PATCH", endpoint, data, config });
 	}
 
-	protected async delete<TData, TError = ApiError>(
+	protected async delete<TData, TError = GenericApiError>(
 		endpoint: string,
 		config?: AxiosRequestConfig,
 	): Promise<ApiResult<TData, TError>> {
@@ -120,20 +127,13 @@ export abstract class BaseApiClient {
 	/**
 	 * Error handler that can be overridden by specific clients
 	 */
-	protected handleError<TError = ApiError>(error: unknown): TError {
+	protected handleError<TError = GenericApiError>(error: unknown): TError {
 		// Handle axios errors with proper type checking
 		if (isAxiosError(error)) {
-			const apiError: ApiError = {
-				message: error.message || "Request failed",
-				code: error.code,
-				status: error.response?.status,
-				details: error.response?.data,
-			};
-
-			return apiError;
+			return error as TError;
 		}
 
-		const genericError: ApiError = {
+		const genericError: GenericApiError = {
 			message: error instanceof Error ? error.message : "Unknown error occurred",
 			details: error,
 		};

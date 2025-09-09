@@ -1,9 +1,9 @@
-import { AxiosRequestConfig } from "axios";
+import { AxiosError, AxiosRequestConfig } from "axios";
 
 /**
  * Base API error interface
  */
-export interface ApiError {
+export interface GenericApiError {
 	message: string;
 	code?: string;
 	status?: number;
@@ -21,20 +21,20 @@ export interface ApiSuccessResponse<Data> {
 /**
  * API Error Response interface
  */
-export interface ApiErrorResponse<Error = ApiError> {
-	error: Error;
+export interface ApiErrorResponse<T> {
+	error: T | AxiosError | GenericApiError;
 	data: null;
 }
 
 /**
  * Standardized API result wrapper for all API calls
  */
-export type ApiResult<TData, TError = ApiError> = ApiSuccessResponse<TData> | ApiErrorResponse<TError>;
+export type ApiResult<TData, TError> = ApiSuccessResponse<TData> | ApiErrorResponse<TError>;
 
 /**
  * Success result helper
  */
-export const createSuccessResult = <TData, TError = ApiError>(data: TData): ApiResult<TData, TError> => ({
+export const createSuccessResult = <TData, TError = never>(data: TData): ApiResult<TData, TError> => ({
 	data,
 	error: null,
 });
@@ -42,7 +42,7 @@ export const createSuccessResult = <TData, TError = ApiError>(data: TData): ApiR
 /**
  * Error result helper
  */
-export const createErrorResult = <TData, TError = ApiError>(error: TError): ApiResult<TData, TError> => ({
+export const createErrorResult = <TData, TError>(error: TError): ApiResult<TData, TError> => ({
 	data: null,
 	error,
 });

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { CreateProductRequest, ProductsListResponse, ProductResponse, VismaSignApiError } from "@repo/api-clients";
+import type { CreateProductRequest } from "@repo/api-clients";
 import { useApiClient } from "../provider";
 
 /**

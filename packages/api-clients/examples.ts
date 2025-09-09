@@ -6,6 +6,8 @@ import { VismaSignApiClient, ShareLinkApiClient } from "./src";
 
 // Basic usage example
 async function basicExample() {
+	console.log("=== Basic API Usage ===");
+
 	// Create clients
 	const vismaSignClient = new VismaSignApiClient({
 		baseURL: "https://visma-sign-api.example.com",
@@ -18,7 +20,7 @@ async function basicExample() {
 	// Get products
 	const productsResult = await vismaSignClient.products.get();
 	if (productsResult.error) {
-		console.error("Failed to get products:", productsResult.error.message);
+		console.error("Failed to get products:", productsResult.error);
 	} else {
 		console.log(`Found ${productsResult.data.products.length} products`);
 	}
@@ -46,5 +48,52 @@ async function basicExample() {
 	}
 }
 
+// Error handling example
+async function errorHandlingExample() {
+	console.log("\n=== Error Handling ===");
+
+	const client = new VismaSignApiClient({
+		baseURL: "https://invalid-url.example.com",
+	});
+
+	const result = await client.products.get();
+
+	// Check for errors
+	if (result.error) {
+		console.log(`Error: ${result.error.message}`);
+		console.log(`Status: ${result.error.status}`);
+		console.log(`Code: ${result.error.code}`);
+	} else {
+		console.log("Success:", result.data);
+	}
+}
+
+// Authentication example
+async function authExample() {
+	console.log("\n=== Authentication ===");
+
+	const vismaSignClient = new VismaSignApiClient({
+		baseURL: "https://visma-sign-api.example.com",
+	});
+
+	// Set token for other API calls
+	vismaSignClient.setAuthToken("#####");
+
+	// Now make authenticated requests
+	const products = await vismaSignClient.products.get();
+	if (products.error) {
+		console.error("Failed to get products:", products.error.message);
+	} else {
+		console.log(`Got ${products.data.products.length} products with auth`);
+	}
+}
+
+// Run examples
+async function runExamples() {
+	await basicExample();
+	await errorHandlingExample();
+	await authExample();
+}
+
 // Export main function
-export { basicExample };
+export { runExamples };

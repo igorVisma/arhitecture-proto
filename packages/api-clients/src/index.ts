@@ -6,7 +6,7 @@
 
 // Export base classes and types
 export { BaseApiClient } from "./base-client";
-export type { BaseClientConfig, ApiError, ApiResult, RequestConfig } from "./types";
+export type { BaseClientConfig, GenericApiError, ApiResult, RequestConfig } from "./types";
 export { createSuccessResult, createErrorResult } from "./types";
 
 // Export Visma Sign API client
