@@ -39,11 +39,6 @@ export interface CreateOrderRequest {
 	billingAddress?: Address; // Optional, can use shipping address
 }
 
-export interface UpdateOrderStatusRequest {
-	status: OrderStatus;
-	notes?: string;
-}
-
 export interface OrdersListResponse {
 	orders: Order[];
 	pagination: {
@@ -54,29 +49,8 @@ export interface OrdersListResponse {
 	};
 }
 
-export interface OrdersQueryParams {
-	page?: number;
-	limit?: number;
-	customerId?: number;
-	status?: OrderStatus;
-	dateFrom?: string; // ISO date string
-	dateTo?: string; // ISO date string
-}
-
 export interface OrderResponse {
 	order: Order;
-}
-
-export interface OrderStatusHistory {
-	id: string;
-	orderId: string;
-	status: OrderStatus;
-	timestamp: string;
-	notes?: string;
-}
-
-export interface OrderStatusHistoryResponse {
-	history: OrderStatusHistory[];
 }
 
 export interface ShareLinkApiError {

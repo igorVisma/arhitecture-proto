@@ -142,24 +142,12 @@ const filteredResult = await client.products.get({
   inStock: true
 });
 
-// Get single product
-const productResult = await client.getProduct(123);
-if (!productResult.error) {
-  console.log('Product:', productResult.data.product);
-}
-
 // Create new product
 const newProductResult = await client.products.create({
   name: 'New Product',
   description: 'Product description',
   price: 99.99,
   category: 'electronics'
-});
-
-// Update product
-const updatedResult = await client.updateProduct(123, {
-  name: 'Updated Product Name',
-  price: 89.99
 });
 
 // Delete product
@@ -179,13 +167,10 @@ const client = createAnotherApiClient({
 });
 
 // Get all orders
-const orders = await client.getOrders();
-
-// Get orders for specific customer
-const customerOrders = await client.getOrdersByCustomer(123);
+const orders = await client.orders.get();
 
 // Create new order
-const newOrder = await client.createOrder({
+const newOrder = await client.orders.create({
   customerId: 123,
   items: [
     { productId: 1, quantity: 2, unitPrice: 29.99 }
@@ -198,21 +183,6 @@ const newOrder = await client.createOrder({
     country: 'US'
   }
 });
-
-// Update order status
-const updatedOrder = await client.updateOrderStatus(newOrder.order.id, {
-  status: 'confirmed',
-  notes: 'Payment verified'
-});
-
-// Cancel order
-await client.cancelOrder(newOrder.order.id, 'Customer requested cancellation');
-
-// Get order status history
-const statusHistory = await client.getOrderStatusHistory(newOrder.order.id);
-
-// Get pending orders
-const pendingOrders = await client.getPendingOrders();
 ```
 
 ### User Service Client

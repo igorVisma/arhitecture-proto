@@ -21,27 +21,11 @@ export interface CreateProductRequest {
 	inStock?: boolean;
 }
 
-export interface UpdateProductRequest {
-	name?: string;
-	description?: string;
-	price?: number;
-	category?: string;
-	inStock?: boolean;
-}
-
 export interface ProductsListResponse {
 	products: Product[];
 	total: number;
 	page: number;
 	limit: number;
-}
-
-export interface ProductsQueryParams {
-	page?: number;
-	limit?: number;
-	category?: string;
-	inStock?: boolean;
-	search?: string;
 }
 
 export interface ProductResponse {
