@@ -4,34 +4,32 @@
  * TanStack Query hooks for API clients
  */
 
-// Export provider and context
-export { ApiClientsProvider, useApiClients, useApiClient } from "./provider";
-export type { ApiClientsContextType, ApiClientsProviderProps } from "./provider";
+// Hook creators
+export { createVismaSignHooks } from "./visma-sign";
+export { createShareLinkHooks } from "./share-link";
 
-// Export Visma Sign hooks and query keys
-export {
-	useProducts,
-	useCreateProduct,
-	useProductsWithStates,
-	useCreateProductWithStates,
-	vismaSignQueryKeys,
-} from "./visma-sign";
+// Utilities
+export { unwrapResult } from "./utils";
 
-// Export Share Link hooks and query keys
-export {
-	useOrders,
-	useCreateOrder,
-	useOrdersWithStates,
-	useCreateOrderWithStates,
-	shareLinkQueryKeys,
-} from "./share-link";
+// Re-export commonly used types from react-query-kit for convenience
+export type { UseQueryResult, UseMutationResult } from "@tanstack/react-query";
 
-// Export User Service hooks and query keys
-export { useUsers, useLogin, useUsersWithStates, useLoginWithStates, userServiceQueryKeys } from "./user-service";
+// Re-export API client types that are commonly used with hooks
+export type {
+	// Visma Sign API types
+	CreateProductRequest,
+	ProductResponse,
+	ProductsListResponse,
+	VismaSignApiError,
+} from "@repo/api-clients/src/visma-sign-api/types";
 
-// Export all query keys for easy access
-export const queryKeys = {
-	vismaSign: vismaSignQueryKeys,
-	shareLink: shareLinkQueryKeys,
-	userService: userServiceQueryKeys,
-} as const;
+export type {
+	// Share Link API types
+	CreateOrderRequest,
+	OrderResponse,
+	OrdersListResponse,
+	ShareLinkApiError,
+} from "@repo/api-clients/src/share-link-api/types";
+
+// Re-export base types
+export type { ApiResult } from "@repo/api-clients/src/types";

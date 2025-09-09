@@ -22,15 +22,10 @@
 			"require": "./src/share-link/index.ts",
 			"types": "./src/share-link/index.ts"
 		},
-		"./user-service": {
-			"import": "./src/user-service/index.ts",
-			"require": "./src/user-service/index.ts",
-			"types": "./src/user-service/index.ts"
-		},
-		"./provider": {
-			"import": "./src/provider.tsx",
-			"require": "./src/provider.tsx",
-			"types": "./src/provider.tsx"
+		"./utils": {
+			"import": "./src/utils.ts",
+			"require": "./src/utils.ts",
+			"types": "./src/utils.ts"
 		}
 	},
 	"peerDependencies": {
