@@ -18,7 +18,7 @@ async function basicExample() {
 	});
 
 	// Get products
-	const productsResult = await vismaSignClient.getProducts();
+	const productsResult = await vismaSignClient.products.get();
 	if (productsResult.error) {
 		console.error("Failed to get products:", productsResult.error.message);
 	} else {
@@ -26,7 +26,7 @@ async function basicExample() {
 	}
 
 	// Create a product
-	const newProduct = await vismaSignClient.createProduct({
+	const newProduct = await vismaSignClient.products.create({
 		name: "Example Product",
 		description: "A simple example product",
 		price: 29.99,
@@ -40,7 +40,7 @@ async function basicExample() {
 	}
 
 	// Get orders
-	const ordersResult = await shareLinkClient.getOrders();
+	const ordersResult = await shareLinkClient.orders.get();
 	if (ordersResult.error) {
 		console.error("Failed to get orders:", ordersResult.error.message);
 	} else {
@@ -56,7 +56,7 @@ async function errorHandlingExample() {
 		baseURL: "https://invalid-url.example.com",
 	});
 
-	const result = await client.getProducts();
+	const result = await client.products.get();
 
 	// Check for errors
 	if (result.error) {
@@ -80,7 +80,7 @@ async function authExample() {
 	vismaSignClient.setAuthToken("#####");
 
 	// Now make authenticated requests
-	const products = await vismaSignClient.getProducts();
+	const products = await vismaSignClient.products.get();
 	if (products.error) {
 		console.error("Failed to get products:", products.error.message);
 	} else {

@@ -121,7 +121,7 @@ const client = createApi1Client({
 });
 
 // Get all products - returns ApiResult<ProductsListResponse, Api1Error>
-const productsResult = await client.getProducts();
+const productsResult = await client.products.get();
 
 if (productsResult.error) {
   console.error('Failed to fetch products:', productsResult.error.message);
@@ -135,7 +135,7 @@ if (productsResult.error) {
 }
 
 // Get products with pagination and filtering
-const filteredResult = await client.getProducts({
+const filteredResult = await client.products.get({
   page: 1,
   limit: 20,
   category: 'electronics',
@@ -149,7 +149,7 @@ if (!productResult.error) {
 }
 
 // Create new product
-const newProductResult = await client.createProduct({
+const newProductResult = await client.products.create({
   name: 'New Product',
   description: 'Product description',
   price: 99.99,

@@ -8,18 +8,26 @@ export class VismaSignApiClient extends BaseApiClient {
 	}
 
 	/**
-	 * Get all products with optional filtering
-	 * @method GET `/products`
+	 * Product related collection with `/products` endpoint methods
 	 */
-	async getProducts(params?: URLSearchParams) {
-		return this.get<ProductsListResponse, VismaSignApiError>("/products", { params });
-	}
+	get products() {
+		const self = this;
+		return {
+			/**
+			 * Get all products with optional filtering
+			 * @method GET `/products`
+			 */
+			async get(params?: URLSearchParams) {
+				return self.get<ProductsListResponse, VismaSignApiError>("/products", { params });
+			},
 
-	/**
-	 * Create a new product
-	 * @method POST `/products`
-	 */
-	async createProduct(productData: CreateProductRequest) {
-		return this.post<ProductResponse, VismaSignApiError, CreateProductRequest>("/products", productData);
+			/**
+			 * Create a new product
+			 * @method POST `/products`
+			 */
+			async create(productData: CreateProductRequest) {
+				return self.post<ProductResponse, VismaSignApiError, CreateProductRequest>("/products", productData);
+			},
+		};
 	}
 }

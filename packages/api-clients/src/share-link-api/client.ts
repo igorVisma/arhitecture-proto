@@ -8,21 +8,26 @@ export class ShareLinkApiClient extends BaseApiClient {
 	}
 
 	/**
-	 * Get all orders with optional filtering
-	 * @method GET /orders
+	 * Orders related collection with `/orders` endpoint methods
 	 */
-	async getOrders(params?: URLSearchParams) {
-		return this.get<OrdersListResponse, ShareLinkApiError>("/orders", { params });
-	}
+	get orders() {
+		const self = this;
+		return {
+			/**
+			 * Get all orders with optional filtering
+			 * @method GET `/orders`
+			 */
+			async get(params?: URLSearchParams) {
+				return self.get<OrdersListResponse, ShareLinkApiError>("/orders", { params });
+			},
 
-	/**
-	 * Create a new order
-	 * @method POST /orders
-	 */
-	async createOrder(orderData: CreateOrderRequest) {
-		return this.post<OrderResponse, ShareLinkApiError, CreateOrderRequest>("/orders", orderData);
+			/**
+			 * Create a new order
+			 * @method POST `/orders`
+			 */
+			async create(orderData: CreateOrderRequest) {
+				return self.post<OrderResponse, ShareLinkApiError, CreateOrderRequest>("/orders", orderData);
+			},
+		};
 	}
 }
-
-// Export types for external use
-export * from "./types";

@@ -20,7 +20,7 @@ export function useOrders(params?: URLSearchParams) {
 	return useQuery({
 		queryKey: shareLinkQueryKeys.ordersList(params),
 		queryFn: async () => {
-			const result = await client.getOrders(params);
+			const result = await client.orders.get(params);
 
 			if (result.error) {
 				throw new Error(result.error.message);
@@ -40,7 +40,7 @@ export function useCreateOrder() {
 
 	return useMutation({
 		mutationFn: async (orderData: CreateOrderRequest) => {
-			const result = await client.createOrder(orderData);
+			const result = await client.orders.create(orderData);
 
 			if (result.error) {
 				throw new Error(result.error.message);

@@ -20,7 +20,7 @@ export function useProducts(params?: URLSearchParams) {
 	return useQuery({
 		queryKey: vismaSignQueryKeys.productsList(params),
 		queryFn: async () => {
-			const result = await client.getProducts(params);
+			const result = await client.products.get(params);
 
 			if (result.error) {
 				throw new Error(result.error.message);
@@ -40,7 +40,7 @@ export function useCreateProduct() {
 
 	return useMutation({
 		mutationFn: async (productData: CreateProductRequest) => {
-			const result = await client.createProduct(productData);
+			const result = await client.products.create(productData);
 
 			if (result.error) {
 				throw new Error(result.error.message);

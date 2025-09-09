@@ -14,7 +14,7 @@ const vismaSignQueryClient = new QueryClient();
 const createVismaSignHooks = (vismaSignClient: VismaSignApiClient, queryClient: QueryClient) => {
 	const useGetProducts = createQuery({
 		queryKey: ["products"],
-		fetcher: async () => unwrapResult(await vismaSignClient.getProducts()),
+		fetcher: async () => unwrapResult(await vismaSignClient.products.get()),
 	});
 
 	const useMutateProduct = createMutation<ProductResponse, CreateProductRequest, VismaSignApiError>({
