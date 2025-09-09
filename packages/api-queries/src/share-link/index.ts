@@ -1,13 +1,16 @@
 import { ApiResult, ShareLinkApiClient } from "@repo/api-clients";
 import { QueryClient } from "@tanstack/react-query";
 import { createMutation, createQuery } from "react-query-kit";
-import type { CreateOrderRequest, OrderResponse, OrdersListResponse, ShareLinkApiError } from "@repo/api-clients/src/share-link-api/types";
+import type {
+	CreateOrderRequest,
+	OrderResponse,
+	OrdersListResponse,
+	ShareLinkApiError,
+} from "@repo/api-clients/src/share-link-api/types";
 import { unwrapResult } from "../utils";
 
 export const createShareLinkHooks = (shareLinkClient: ShareLinkApiClient, queryClient: QueryClient) => {
-
-
-	const useGetOrders = createQuery<OrdersListResponse, void, ShareLinkApiError >({
+	const useGetOrders = createQuery<OrdersListResponse, void, ShareLinkApiError>({
 		queryKey: ["orders"],
 		fetcher: async () => unwrapResult(await shareLinkClient.orders.get()),
 	});
@@ -26,6 +29,3 @@ export const createShareLinkHooks = (shareLinkClient: ShareLinkApiClient, queryC
 		useMutateOrder,
 	};
 };
-
-// Fixed utility type to extract mutation types from API functions
-type ApiFunctionToMutationType<T> = T extends (...args: infer Arguments) => Promise<ApiResult<infer ReturnType, infer ErrorType>> ? <ReturnType, ErrorType, Arguments> : never;
