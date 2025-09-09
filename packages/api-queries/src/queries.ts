@@ -7,30 +7,19 @@ import type {
 	ProductsListResponse,
 	VismaSignApiError,
 } from "@repo/api-clients/src/visma-sign-api/types";
+import { unwrapResult } from "./utils";
 
 const vismaSignQueryClient = new QueryClient();
 
 const createVismaSignHooks = (vismaSignClient: VismaSignApiClient, queryClient: QueryClient) => {
 	const useGetProducts = createQuery({
 		queryKey: ["products"],
-		fetcher: async () => {
-			const { data, error } = await vismaSignClient.getProducts();
-			if (error) {
-				throw error;
-			}
-			return data;
-		},
+		fetcher: async () => unwrapResult(await vismaSignClient.getProducts()),
 	});
 
 	const useMutateProduct = createMutation<ProductResponse, CreateProductRequest, VismaSignApiError>({
 		mutationKey: ["createProduct"],
-		mutationFn: async (productData) => {
-			const { data, error } = await vismaSignClient.createProduct(productData);
-			if (error) {
-				throw error;
-			}
-			return data;
-		},
+		mutationFn: async (productData) => unwrapResult(await vismaSignClient.createProduct(productData)),
 		onSuccess: () => {
 			useGetProducts.getKey();
 			queryClient.fetchQuery(useGetProducts.getFetchOptions());
@@ -46,4 +35,4 @@ const createVismaSignHooks = (vismaSignClient: VismaSignApiClient, queryClient: 
 const vismaSignHooks = createVismaSignHooks(new VismaSignApiClient({ baseURL: "1" }), vismaSignQueryClient);
 
 const { data, error } = vismaSignHooks.useGetProducts({});
-const { mutate, error } = vismaSignHooks.useMutateProduct({});
+const createMutateProduct = vismaSignHooks.useMutateProduct();
